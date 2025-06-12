@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/api/books";
+const API_URL = "https://booksky-backend.onrender.com/api/books";
 
 const popupoverlay = document.querySelector(".popup-overlay");
 const popupbox = document.querySelector(".popup-box");
