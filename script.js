@@ -1,52 +1,66 @@
-<<<<<<< HEAD
-const API_URL = "https://booksky-backend.onrender.com/api/books";
+const API_URL = "http://localhost:3000/api/books";
 
+const popupoverlay = document.querySelector(".popup-overlay");
+const popupbox = document.querySelector(".popup-box");
+const addpopupbutton = document.getElementById("add-popup-button");
+const cancelpopup = document.getElementById("Cancel-popup");
 
-var popupoverlay=document.querySelector(".popup-overlay")
-var popupbox=document.querySelector(".popup-box")
-var addpopupbutton=document.getElementById("add-popup-button")
-addpopupbutton.addEventListener("click",function(){
-    popupoverlay.style.display="block"
-    popupbox.style.display="block"
-})
-var cancelpopup=document.getElementById("Cancel-popup")
-cancelpopup.addEventListener("click",function(){
-    
-     event.preventDefault()
-  popupbox.style.display="none"
-  popupoverlay.style.display="none"
-})
-var addbook=document.getElementById("add-book")
-var booktittleinput=document.getElementById("book-tittle-input")
-var bookauthorinput=document.getElementById("book-author-input")
-var bookdescriptioninput=document.getElementById("book-description-input")
-var container=document.querySelector(".container")
-addbook.addEventListener("click", async function(event) {
+const addbook = document.getElementById("add-book");
+const booktittleinput = document.getElementById("book-tittle-input");
+const bookauthorinput = document.getElementById("book-author-input");
+const bookdescriptioninput = document.getElementById("book-description-input");
+const container = document.querySelector(".container");
+
+// Show popup
+addpopupbutton.addEventListener("click", function () {
+  popupoverlay.style.display = "block";
+  popupbox.style.display = "block";
+});
+
+// Hide popup
+cancelpopup.addEventListener("click", function (event) {
+  event.preventDefault();
+  popupbox.style.display = "none";
+  popupoverlay.style.display = "none";
+});
+
+// Add book to backend + frontend
+addbook.addEventListener("click", async function (event) {
   event.preventDefault();
 
   const newBook = {
     title: booktittleinput.value,
     author: bookauthorinput.value,
-    description: bookdescriptioninput.value
+    description: bookdescriptioninput.value,
   };
 
   // Save to backend
-  await fetch(API_URL, {
+  const response = await fetch(API_URL, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(newBook)
+    body: JSON.stringify(newBook),
   });
 
-  // Then show in frontend
-  renderBook(newBook);
+  const savedBook = await response.json();
 
+  // Render the saved book on frontend
+  renderBook(savedBook);
+
+  // Hide popup
   popupoverlay.style.display = "none";
   popupbox.style.display = "none";
+
+  // Clear input fields
+  booktittleinput.value = "";
+  bookauthorinput.value = "";
+  bookdescriptioninput.value = "";
 });
+
+// Show book on screen
 function renderBook(book) {
-  var div = document.createElement("div");
+  const div = document.createElement("div");
   div.setAttribute("class", "book-container");
   div.innerHTML = `
     <h2>${book.title}</h2>
@@ -57,78 +71,14 @@ function renderBook(book) {
   container.append(div);
 }
 
-function delfun(event){
-  event.target.parentElement.remove()
-}
+// Fetch and display books from MongoDB when page loads
 window.addEventListener("DOMContentLoaded", async () => {
   const response = await fetch(API_URL);
   const books = await response.json();
-  books.forEach(book => renderBook(book));
+  books.forEach((book) => renderBook(book));
 });
-=======
-const API_URL = "https://booksky-backend.onrender.com/api/books";
 
-var popupoverlay=document.querySelector(".popup-overlay")
-var popupbox=document.querySelector(".popup-box")
-var addpopupbutton=document.getElementById("add-popup-button")
-addpopupbutton.addEventListener("click",function(){
-    popupoverlay.style.display="block"
-    popupbox.style.display="block"
-})
-var cancelpopup=document.getElementById("Cancel-popup")
-cancelpopup.addEventListener("click",function(){
-    
-     event.preventDefault()
-  popupbox.style.display="none"
-  popupoverlay.style.display="none"
-})
-var addbook=document.getElementById("add-book")
-var booktittleinput=document.getElementById("book-tittle-input")
-var bookauthorinput=document.getElementById("book-author-input")
-var bookdescriptioninput=document.getElementById("book-description-input")
-var container=document.querySelector(".container")
-addbook.addEventListener("click", async function(event) {
-  event.preventDefault();
-
-  const newBook = {
-    title: booktittleinput.value,
-    author: bookauthorinput.value,
-    description: bookdescriptioninput.value
-  };
-
-  // Save to backend
-  await fetch(API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(newBook)
-  });
-
-  // Then show in frontend
-  renderBook(newBook);
-
-  popupoverlay.style.display = "none";
-  popupbox.style.display = "none";
-});
-function renderBook(book) {
-  var div = document.createElement("div");
-  div.setAttribute("class", "book-container");
-  div.innerHTML = `
-    <h2>${book.title}</h2>
-    <h5>${book.author}</h5>
-    <p>${book.description}</p>
-    <button onclick="delfun(event)">Delete</button>
-  `;
-  container.append(div);
+// Remove book from UI only
+function delfun(event) {
+  event.target.parentElement.remove();
 }
-
-function delfun(event){
-  event.target.parentElement.remove()
-}
-window.addEventListener("DOMContentLoaded", async () => {
-  const response = await fetch(API_URL);
-  const books = await response.json();
-  books.forEach(book => renderBook(book));
-});
->>>>>>> 5d3932a6406c3e39152b88c50fb97ed483384f58
