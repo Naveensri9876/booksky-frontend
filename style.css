@@ -1,210 +1,149 @@
-* { margin: 0; padding: 0; }
-body { font-family: sans-serif; }
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
 
+body {
+  background-color: #fff;
+  padding: 20px;
+}
+
+/* Navbar */
 .navbar {
-  background-color: #fd6569;
-  padding: 10px;
-}
-
-.container{
-  padding: 10px;
-}
-
-.book-container {
-  padding: 15px;
-  width: 25%;
-  background-color: black;
+  background-color: #f35b66;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   color: white;
-  border-radius: 30px;
-  margin: 30px;
-  display: inline-block;
-  vertical-align: top;
+}
+
+.navbar h1 {
+  font-size: 2rem;
+}
+
+.navbar button {
+  padding: 8px 16px;
+  border: none;
+  background-color: white;
+  color: #f35b66;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Book Container */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 30px;
+  justify-content: center;
+}
+
+/* Each Book Card */
+.book-container {
+  background-color: black;
+  color: #ff6464;
+  padding: 20px;
+  border-radius: 25px;
+  width: 250px;
 }
 
 .book-container h2 {
-  color: #fd6569;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.book-container h5 {
+  font-size: 1rem;
+  color: white;
+}
+
+.book-container p {
+  font-size: 0.95rem;
+  color: white;
+  margin: 10px 0;
 }
 
 .book-container button {
-  background-color: #fd6569;
-  color: black;
-  padding: 5px 10px;
-  border-radius: 5px;
+  padding: 8px 16px;
+  background-color: #f35b66;
+  color: white;
   border: none;
-  margin-top: 10px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
+/* Add Button */
 .add-button {
-  background-color: #fd6569;
-  color: white;
-  border-radius: 50%;
-  padding: 10px;
-  font-size: 40px;
-  border: none;
   position: fixed;
   bottom: 30px;
   right: 30px;
+  font-size: 2rem;
+  background-color: #f35b66;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
   cursor: pointer;
 }
 
-.popup-overlay {
-  background-color: black;
-  opacity: 0.8;
+/* Popup Background */
+.popup-overlay,
+.popup-overlay-auth {
   position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0; left: 0;
-  z-index: 1;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.6);
   display: none;
 }
 
-.popup-box {
-  background-color: #fd6569;
-  width: 30%;
-  padding: 40px;
-  border-radius: 10px;
+/* Popup Box */
+.popup-box,
+.popup-box-auth {
   position: fixed;
-  left: 35%;
-  top: 20%;
-  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  width: 300px;
   display: none;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
 }
 
+.popup-box h2,
+.popup-box-auth h2 {
+  margin-bottom: 20px;
+  color: #f35b66;
+}
+
+/* Input Fields */
 .popup-box input,
+.popup-box-auth input,
 .popup-box textarea {
   width: 100%;
+  margin-bottom: 15px;
   padding: 10px;
-  font-size: 20px;
-  margin: 5px 0;
-  border: 2px solid black;
-  border-radius: 4px;
-  background: antiquewhite;
+  border: 1px solid #ccc;
+  border-radius: 8px;
 }
 
-.popup-box button {
-  background-color: black;
+/* Auth Buttons */
+.popup-box-auth button {
+  padding: 10px;
+  margin-right: 5px;
+  background-color: #f35b66;
   color: white;
-  padding: 10px 20px;
-  margin: 5px 5px 0 0;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
-}
-*{
-    margin:0;
-    padding:0;
-}
-body{
-    font-family: sans-serif;
-}
-.navbar{
-    background-color: #fd6569;
-    padding:10px;
-}
-.container{ 
-    padding: 10px;
-    
-}
-.book-container{
- padding: 15px;
- width: 25%;
- background-color:black;
- color: white;
- border-radius: 30px;
- margin: 30px;
- display:inline-block;
- vertical-align:top;
-}
-.book-container h1{
-    color: #fd6569;
-}
-.book-container button{
-    background-color: #fd6569;
-    color:black;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-radius: 5px;
-    border:none;
-    margin-top: 10px;
-    ;
-}
-.add-button{
-    background-color: #fd6569;
-    color: white;
-    border-radius: 100px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-    font-size: 40px;
-    border:none;
-    position:fixed;
-    bottom: 30px;
-    right: 30px;
-}
-.popup-overlay{
-    background-color: black;
-    opacity: 0.8;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top:0;
-    left:0;
-    z-index: 1;
-
-    display: none;
-}
-.popup-box{
-    background-color: #fd6569;
-    width: 30%;
-    padding: 40px;
-    border-radius: 10px;
-    position: absolute;
-    left: 30%;
-    top: 20%; 
-    z-index: 2;
-    display: none;
-}
-.popup-box input{
-background-color: antiquewhite;
-border: none;
-width: 100%;
-padding: 10px;
-border-bottom: solid black 2px;
-font-size: 20px;
-margin: 5px;
-
-}
-.popup-box textarea{
-    background-color:aliceblue;
-    color: black;
-    width: 100%;
-    font-size: 20px;
-    margin: 5px;
-    border: solid black 2px;
-}
-.popup-box input::placeholder{
-    color: black;
-}
-.popup-box textarea::placeholder{
-    color: black;
-}
-.popup-box button{
-    background-color: black;
-    color: white;
-    padding-left:20px;
-    padding-right:20px;
-    padding-bottom:10px;
-    padding-top:10px;
-    margin: 5px;
-    border:none;
-
-}
-.popup-box input:focus{
-    outline: none;
-}
-.popup-box textarea:focus{
-    outline: none;
 }
