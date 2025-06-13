@@ -1,3 +1,22 @@
+// ✅ Firebase SDK imports
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
+// ✅ Firebase Configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyB_Nq1c_D2FUN_YhSIs5CZegkhvzV1oxfI",
+  authDomain: "booksky-b0c91.firebaseapp.com",
+  projectId: "booksky-b0c91",
+  storageBucket: "booksky-b0c91.appspot.com",
+  messagingSenderId: "50531144727",
+  appId: "1:50531144727:web:0a77c901f8d25cc5907852"
+};
+
+// ✅ Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// 🚀 Your book management code starts here
 const API_URL = "https://booksky-backend.onrender.com/api/books";
 
 const popupoverlay = document.querySelector(".popup-overlay");
@@ -96,3 +115,91 @@ async function delfun(event) {
     alert("Failed to delete book from backend.");
   }
 }
+
+// ✅ Firebase Auth Functions
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
+// DOM Elements
+const loginBtnPopup = document.getElementById("login-button");
+const logoutBtn = document.getElementById("logout-button");
+const authOverlay = document.querySelector(".popup-overlay-auth");
+const authPopup = document.querySelector(".popup-box-auth");
+const loginBtn = document.getElementById("login-btn");
+const signupBtn = document.getElementById("signup-btn");
+const cancelAuthBtn = document.getElementById("cancel-auth");
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    loginBtnPopup.style.display = "none";
+    logoutBtn.style.display = "inline-block";
+    addpopupbutton.style.display = "block";
+    container.style.display = "flex";
+
+    // ✅ Fetch and show books only when logged in
+    const response = await fetch(API_URL);
+    const books = await response.json();
+    container.innerHTML = ""; // clear old books if any
+    books.forEach((book) => renderBook(book));
+  } else {
+    loginBtnPopup.style.display = "inline-block";
+    logoutBtn.style.display = "none";
+    addpopupbutton.style.display = "none";
+    container.style.display = "none";
+    container.innerHTML = ""; // clear books on logout
+  }
+});
+
+// Show login/signup popup
+loginBtnPopup.addEventListener("click", () => {
+  authOverlay.style.display = "block";
+  authPopup.style.display = "block";
+});
+
+// Close login/signup popup
+cancelAuthBtn.addEventListener("click", () => {
+  authOverlay.style.display = "none";
+  authPopup.style.display = "none";
+});
+
+// Firebase Login
+loginBtn.addEventListener("click", async () => {
+  const email = document.getElementById("auth-email").value;
+  const password = document.getElementById("auth-password").value;
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    alert("Login successful!");
+    authOverlay.style.display = "none";
+    authPopup.style.display = "none";
+  } catch (err) {
+    alert("Login failed: " + err.message);
+  }
+});
+
+// Firebase Signup
+signupBtn.addEventListener("click", async () => {
+  const email = document.getElementById("auth-email").value;
+  const password = document.getElementById("auth-password").value;
+  try {
+    await createUserWithEmailAndPassword(auth, email, password);
+    alert("Signup successful!");
+    authOverlay.style.display = "none";
+    authPopup.style.display = "none";
+  } catch (err) {
+    alert("Signup failed: " + err.message);
+  }
+});
+
+// Firebase Logout
+logoutBtn.addEventListener("click", async () => {
+  await signOut(auth);
+  alert("Logged out!");
+});
+
+
+
+window.delfun = delfun;
+
