@@ -62,6 +62,7 @@ addbook.addEventListener("click", async function (event) {
 function renderBook(book) {
   const div = document.createElement("div");
   div.setAttribute("class", "book-container");
+  div.setAttribute("data-id", book._id); // Store book ID for deletion
   div.innerHTML = `
     <h2>${book.title}</h2>
     <h5>${book.author}</h5>
@@ -78,7 +79,20 @@ window.addEventListener("DOMContentLoaded", async () => {
   books.forEach((book) => renderBook(book));
 });
 
-// Remove book from UI only
-function delfun(event) {
-  event.target.parentElement.remove();
+// Delete book from backend and UI
+async function delfun(event) {
+  const bookElement = event.target.parentElement;
+  const bookId = bookElement.getAttribute("data-id");
+
+  // Send DELETE request to backend
+  const response = await fetch(`${API_URL}/${bookId}`, {
+    method: "DELETE"
+  });
+
+  if (response.ok) {
+    // Remove from UI if backend deletion was successful
+    bookElement.remove();
+  } else {
+    alert("Failed to delete book from backend.");
+  }
 }
